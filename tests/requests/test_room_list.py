@@ -16,3 +16,15 @@ def test_build_room_list_request_from_empty_dict():
 
 def test_build_room_list_request_with_invalid_filters_parameter():
     request = build_room_list_request(filters=5)
+
+    assert request.has_errors()
+    assert request.errors[0]["parameter"] == "filters"
+    assert bool(request) is False
+
+
+def test_build_room_list_request_with_incorrect_filter_keys():
+    request = build_room_list_request(filters={"a": 1})
+
+    assert request.has_errors()
+    assert request.errors[0]["parameter"] == "filters"
+    assert bool(request) is False
